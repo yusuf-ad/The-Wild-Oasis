@@ -1,9 +1,9 @@
 import styled from "styled-components";
 import { formatCurrency } from "../../utils/helpers";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { deleteCabin } from "../../services/apiCabins";
-import toast from "react-hot-toast";
 import { useState } from "react";
+
+import { useDeleteCabin } from "./useDeleteCain";
+
 import CreateCabinForm from "./CreateCabinForm";
 
 const TableRow = styled.div`
@@ -57,19 +57,7 @@ function CabinRow({ cabin }) {
     image,
   } = cabin;
 
-  const queryClient = useQueryClient();
-
-  const { isLoading: isDeleting, mutate } = useMutation({
-    mutationFn: deleteCabin,
-    onSuccess: () => {
-      toast.success("Cabin succesfully deleted");
-
-      queryClient.invalidateQueries({
-        queryKey: ["cabins"],
-      });
-    },
-    onError: (err) => toast.error(err.message),
-  });
+  const { isDeleting, deleteCabin } = useDeleteCabin();
 
   return (
     <>
@@ -78,7 +66,11 @@ function CabinRow({ cabin }) {
         <Cabin>{name}</Cabin>
         <div>Fits up to {maxCapacity} guests</div>
         <Price>{formatCurrency(regularPrice)} </Price>
-        <Discount>{formatCurrency(regularPrice)} </Discount>
+        {discount ? (
+          <Discount>{formatCurrency(discount)} </Discount>
+        ) : (
+          <span>&mdash;</span>
+        )}
         <div style={{ display: "flex", gap: "12px" }}>
           <button
             style={{ padding: "4px 8px" }}
@@ -88,7 +80,7 @@ function CabinRow({ cabin }) {
           </button>
           <button
             style={{ padding: "4px 8px" }}
-            onClick={() => mutate(cabinId)}
+            onClick={() => deleteCabin(cabinId)}
           >
             {isDeleting ? "Deleting..." : "Delete"}
           </button>

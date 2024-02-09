@@ -10,8 +10,13 @@ import FormRow from "../../ui/FormRow";
 
 import { useForm } from "react-hook-form";
 import { createEditCabin } from "../../services/apiCabins";
+import { useCreateCabin } from "./useCreateCabin";
+import useEditCabin from "./useEditCabin";
 
 function CreateCabinForm({ cabinToEdit = {} }) {
+  const { isCreating, createCabin } = useCreateCabin();
+  const { isEditing, editCabin } = useEditCabin();
+
   const { id: editId, ...editValues } = cabinToEdit;
   const isEditSession = Boolean(editId);
 
@@ -19,41 +24,6 @@ function CreateCabinForm({ cabinToEdit = {} }) {
     defaultValues: isEditSession ? editValues : {},
   });
   const { errors } = formState;
-  console.log(errors);
-
-  const queryClient = useQueryClient();
-
-  const { mutate: createCabin, isLoading: isCreating } = useMutation({
-    mutationFn: createEditCabin,
-    onSuccess: () => {
-      toast.success("New cabin succesfully created");
-
-      queryClient.invalidateQueries({
-        queryKey: ["cabins"],
-      });
-
-      reset();
-    },
-    onError: (error) => {
-      toast.error(error.message);
-    },
-  });
-
-  const { mutate: editCabin, isLoading: isEditing } = useMutation({
-    mutationFn: ({ newCabinData, id }) => createEditCabin(newCabinData, id),
-    onSuccess: () => {
-      toast.success("Cabin succesfully edited");
-
-      queryClient.invalidateQueries({
-        queryKey: ["cabins"],
-      });
-
-      reset(getValues());
-    },
-    onError: (error) => {
-      toast.error(error.message);
-    },
-  });
 
   const isWorking = isCreating || isEditing;
 
@@ -61,9 +31,24 @@ function CreateCabinForm({ cabinToEdit = {} }) {
     const image = typeof data.image === "string" ? data.image : data.image[0];
 
     if (isEditSession) {
-      editCabin({ newCabinData: { ...data, image }, id: editId });
+      editCabin(
+        { newCabinData: { ...data, image }, id: editId },
+        {
+          onSuccess: (data) => reset(getValues()),
+        }
+      );
     } else {
-      createCabin({ ...data, image: data.image[0] });
+      createCabin(
+        { ...data, image: data.image[0] },
+        {
+          // we can access returned data
+          onSuccess: (data) => {
+            console.log(data);
+
+            reset();
+          },
+        }
+      );
     }
   }
 
@@ -127,7 +112,6 @@ function CreateCabinForm({ cabinToEdit = {} }) {
 
       <FormRow
         label={"Description for website"}
-        disabled={isWorking}
         error={errors?.description?.message}
       >
         <Textarea
