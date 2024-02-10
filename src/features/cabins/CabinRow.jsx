@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useDeleteCabin } from "./useDeleteCain";
 
 import CreateCabinForm from "./CreateCabinForm";
+import { HiPencil, HiSquare2Stack, HiTrash } from "react-icons/hi2";
 
 const TableRow = styled.div`
   display: grid;
@@ -71,18 +72,31 @@ function CabinRow({ cabin }) {
         ) : (
           <span>&mdash;</span>
         )}
-        <div style={{ display: "flex", gap: "12px" }}>
+        <div
+          style={{
+            display: "flex",
+            gap: "12px",
+          }}
+        >
           <button
-            style={{ padding: "4px 8px" }}
+            style={{ padding: "6px 12px", background: "none" }}
             onClick={() => setShowForm(!showForm)}
           >
-            Edit
+            <HiSquare2Stack />
+          </button>
+
+          <button
+            style={{ padding: "6px 12px", background: "none" }}
+            onClick={() => setShowForm(!showForm)}
+          >
+            <HiPencil />
           </button>
           <button
-            style={{ padding: "4px 8px" }}
+            style={{ padding: "6px 12px", background: "none" }}
             onClick={() => deleteCabin(cabinId)}
+            disabled={isDeleting}
           >
-            {isDeleting ? "Deleting..." : "Delete"}
+            <HiTrash />
           </button>
         </div>
       </TableRow>
