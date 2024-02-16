@@ -1,6 +1,3 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import toast from "react-hot-toast";
-
 import Input from "../../ui/Input";
 import Form from "../../ui/Form";
 import Button from "../../ui/Button";
@@ -9,11 +6,10 @@ import Textarea from "../../ui/Textarea";
 import FormRow from "../../ui/FormRow";
 
 import { useForm } from "react-hook-form";
-import { createEditCabin } from "../../services/apiCabins";
 import { useCreateCabin } from "./useCreateCabin";
 import useEditCabin from "./useEditCabin";
 
-function CreateCabinForm({ cabinToEdit = {} }) {
+function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
   const { isCreating, createCabin } = useCreateCabin();
   const { isEditing, editCabin } = useEditCabin();
 
@@ -34,7 +30,10 @@ function CreateCabinForm({ cabinToEdit = {} }) {
       editCabin(
         { newCabinData: { ...data, image }, id: editId },
         {
-          onSuccess: (data) => reset(getValues()),
+          onSuccess: (data) => {
+            reset(getValues());
+            onCloseModal?.();
+          },
         }
       );
     } else {
@@ -43,9 +42,10 @@ function CreateCabinForm({ cabinToEdit = {} }) {
         {
           // we can access returned data
           onSuccess: (data) => {
-            console.log(data);
+            // console.log(data);
 
             reset();
+            onCloseModal?.();
           },
         }
       );
@@ -57,7 +57,10 @@ function CreateCabinForm({ cabinToEdit = {} }) {
   }
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit, onError)}>
+    <Form
+      onSubmit={handleSubmit(onSubmit, onError)}
+      type={onCloseModal ? "modal" : "regular"}
+    >
       <FormRow label={"Cabin name"} error={errors?.name?.message}>
         <Input
           type="text"
@@ -136,7 +139,11 @@ function CreateCabinForm({ cabinToEdit = {} }) {
 
       <FormRow>
         {/* type is an HTML attribute! */}
-        <Button variation="secondary" type="reset">
+        <Button
+          variation="secondary"
+          type="reset"
+          onClick={() => onCloseModal?.()}
+        >
           Cancel
         </Button>
         <Button disabled={isWorking}>
