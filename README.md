@@ -67,6 +67,7 @@ So in other words, with a portal we can basically render a component
 in any place that we want inside the DOM tree but still leave the component
 at the same place in the React component tree.
 
+// we use react portal for reusability
 function Modal({ children, onClose }) {
 return createPortal(
 <Overlay>

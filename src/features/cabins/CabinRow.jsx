@@ -94,18 +94,18 @@ function CabinRow({ cabin }) {
         >
           <button
             style={{ padding: "6px 12px", background: "none" }}
+            onClick={() => setShowForm(!showForm)}
+          >
+            <HiPencil />
+          </button>
+          <button
+            style={{ padding: "6px 12px", background: "none" }}
             onClick={handleDuplicateCabin}
             disabled={isCreating}
           >
             <HiSquare2Stack />
           </button>
 
-          <button
-            style={{ padding: "6px 12px", background: "none" }}
-            onClick={() => setShowForm(!showForm)}
-          >
-            <HiPencil />
-          </button>
           <button
             style={{ padding: "6px 12px", background: "none" }}
             onClick={() => deleteCabin(cabinId)}
