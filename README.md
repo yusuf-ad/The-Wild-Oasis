@@ -83,3 +83,10 @@ return createPortal(
 
 );
 }
+
+## useClickOutside hook
+
+# mousedown ve click eventinin farkları
+
+Tetiklenme Zamanı: mousedown tıklama işlemi başladığında hemen tetiklenirken, click tıklama işleminin tamamlanmasından (basma ve bırakma) sonra tetiklenir.
+Kullanım Amacı: mousedown daha çok anında tepki verilmesi gereken durumlar için uygunken, click daha çok standart tıklama işlemleri için kullanılır.
