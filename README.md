@@ -90,3 +90,11 @@ return createPortal(
 
 Tetiklenme Zamanı: mousedown tıklama işlemi başladığında hemen tetiklenirken, click tıklama işleminin tamamlanmasından (basma ve bırakma) sonra tetiklenir.
 Kullanım Amacı: mousedown daha çok anında tepki verilmesi gereken durumlar için uygunken, click daha çok standart tıklama işlemleri için kullanılır.
+
+# createPortal()
+
+React'te createPortal() metodunun temel amacı, bir çocuk bileşenini DOM'un başka bir yerinde render etmeyi sağlamaktır. Bu genellikle modaller, pop-up'lar veya tooltip'ler gibi, uygulamanın ana DOM hiyerarşisinden bağımsız olarak yönetilmesi gereken UI parçaları için kullanılır.
+
+# getBoundingClientRect()
+
+getBoundingClientRect() metodu, bir HTML elementinin konumu ve boyutu hakkında bilgi veren bir JavaScript API'sidir. Bu metod, elementin görüntü alanındaki (viewport) mutlak pozisyonunu, yani sol, üst, sağ, alt, genişlik (width) ve yükseklik (height) değerlerini içeren bir DOMRect nesnesi döndürür. Bu bilgiler, sayfa üzerindeki öğelerin yerleşimini anlamak, animasyonlar oluşturmak, sürükle-bırak işlemleri gerçekleştirmek ve daha birçok durumda kullanılabilir.
