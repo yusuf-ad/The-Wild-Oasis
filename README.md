@@ -98,3 +98,18 @@ React'te createPortal() metodunun temel amacı, bir çocuk bileşenini DOM'un ba
 # getBoundingClientRect()
 
 getBoundingClientRect() metodu, bir HTML elementinin konumu ve boyutu hakkında bilgi veren bir JavaScript API'sidir. Bu metod, elementin görüntü alanındaki (viewport) mutlak pozisyonunu, yani sol, üst, sağ, alt, genişlik (width) ve yükseklik (height) değerlerini içeren bir DOMRect nesnesi döndürür. Bu bilgiler, sayfa üzerindeki öğelerin yerleşimini anlamak, animasyonlar oluşturmak, sürükle-bırak işlemleri gerçekleştirmek ve daha birçok durumda kullanılabilir.
+
+<!-- rest operator in props -->
+
+function Select({ options, value, ...props }) {
+return (
+<StyledSelect value={value} {...props}>
+{options.map((option) => (
+
+<option key={option.value} value={option.value}>
+{option.label}{" "}
+</option>
+))}
+</StyledSelect>
+);
+}
