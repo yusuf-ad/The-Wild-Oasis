@@ -113,3 +113,43 @@ return (
 </StyledSelect>
 );
 }
+
+import { useQuery } from "@tanstack/react-query";
+import { getBookings } from "../../services/apiBookings";
+import { useSearchParams } from "react-router-dom";
+
+export function useBookings() {
+const [searchParams] = useSearchParams();
+
+const filterValue = searchParams.get("status");
+
+const filter =
+!filterValue || filterValue === "all"
+? null
+: { field: "status", value: filterValue };
+
+const {
+isLoading,
+data: bookings,
+error,
+} = useQuery({
+// whenever the filter changes react query will refetch the data
+queryKey: ["bookings", filter],
+// ! this function needs to return a promise
+queryFn: () => getBookings({ filter }),
+});
+
+return { isLoading, bookings, error };
+}
+
+1. Caching is like memoization .
+
+2. if your queryFn depens on a variable , incude it in query key.
+
+3. React Query can refetch data from the cache or the server. By default, React Query will try to fetch data from the cache first. If the data is not in the cache, React Query will then fetch data from the server.
+
+now , when you attempt to refetch without specfying dependency react query thinks running your query function will return same data so lets get you that data from cache , even if you use filter in your query function react query doesnt know that that will change the data fetched by query function .
+
+but when you specify filter as dependency in querykey react query now knows that now running query function will return different result very time filter changes so data wont be fetched from cache and query function will be run .
+
+on page reload and page leave query function is run anyway to detch fresh data ,hence the behaviour we saw here.
