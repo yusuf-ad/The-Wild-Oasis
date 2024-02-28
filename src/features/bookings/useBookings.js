@@ -7,7 +7,6 @@ export function useBookings() {
 
   // FILTER
   const filterValue = searchParams.get("status");
-
   const filter =
     !filterValue || filterValue === "all"
       ? null
@@ -16,20 +15,22 @@ export function useBookings() {
 
   // SORT
   const sortByRaw = searchParams.get("sortBy") || "startDate-desc";
-
   const [field, direction] = sortByRaw.split("-");
   const sortBy = { field, direction };
 
+  // PAGINATION
+  const page = !searchParams.get("page") ? 1 : Number(searchParams.get("page"));
+
   const {
     isLoading,
-    data: bookings,
+    data: { data: bookings, count } = {},
     error,
   } = useQuery({
     // ? whenever the filter changes react query will refetch the data
-    queryKey: ["bookings", filter, sortBy],
+    queryKey: ["bookings", filter, sortBy, page],
     // !  this function needs to return a promise
-    queryFn: () => getBookings({ filter, sortBy }),
+    queryFn: () => getBookings({ filter, sortBy, page }),
   });
 
-  return { isLoading, bookings, error };
+  return { isLoading, bookings, error, count };
 }
