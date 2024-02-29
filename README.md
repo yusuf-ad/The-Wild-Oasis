@@ -153,3 +153,15 @@ now , when you attempt to refetch without specfying dependency react query think
 but when you specify filter as dependency in querykey react query now knows that now running query function will return different result very time filter changes so data wont be fetched from cache and query function will be run .
 
 on page reload and page leave query function is run anyway to detch fresh data ,hence the behaviour we saw here.
+
+<!-- destructuring -->
+
+Hayır, destructuring işlemi orijinal objeyi değiştirmez. Destructuring, orijinal objenin özelliklerini yeni değişkenlere atar, ancak orijinal objeyi olduğu gibi bırakır.
+
+Yani, booking objesinden status, id ve ...booking (geri kalan özellikler) özelliklerini destructuring ile çıkardığınızda, orijinal booking objesi değişmez. status, id (yeni adıyla bookingId) ve booking (id ve status dışındaki özellikler) artık doğrudan kullanılabilir değişkenlerdir.
+
+const {
+booking,
+booking: { status, id: bookingId } = {},
+isLoading,
+} = useBooking();

@@ -1,4 +1,4 @@
-import { useCabins } from "./useCabin";
+import { useCabins } from "./useCabins";
 
 import Spinner from "../../ui/Spinner";
 import CabinRow from "../cabins/CabinRow";
