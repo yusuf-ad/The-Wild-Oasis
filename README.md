@@ -165,3 +165,6 @@ booking,
 booking: { status, id: bookingId } = {},
 isLoading,
 } = useBooking();
+
+      //   The { active: true } option means that only active queries (queries that are currently being used by at least one component on the screen) will be invalidated.
+      queryClient.invalidateQueries({ active: true });
