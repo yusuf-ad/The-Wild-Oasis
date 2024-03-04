@@ -168,3 +168,34 @@ isLoading,
 
       //   The { active: true } option means that only active queries (queries that are currently being used by at least one component on the screen) will be invalidated.
       queryClient.invalidateQueries({ active: true });
+
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { login as loginAPI } from "../../services/apiAuth";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+
+export function useLogin() {
+const queryClient = useQueryClient();
+const navigate = useNavigate();
+
+const { mutate: login, isLoading } = useMutation({
+mutationFn: ({ email, password }) => loginAPI({ email, password }),
+
+    onSuccess: () => {
+      queryClient.setQueriesData("user", { role: "authenticated" });
+      navigate("/dashboard");
+    },
+
+    onError: (error) => {
+      console.error("ERROR", error);
+      toast.error("Provided email or password is incorrect");
+    },
+
+});
+
+return { login, isLoading };
+}
+
+Örneğin, /login sayfasından /dashboard sayfasına replace: true ile yönlendirme yapılırsa, kullanıcı tarayıcının "geri" düğmesine bastığında /login sayfasına geri dönmez. Çünkü /login URL'si geçmişten silinmiş ve yerine /dashboard eklenmiştir. Bu genellikle kullanıcıların belirli durumlarda (örneğin, başarılı bir giriş işleminden sonra) belirli sayfalara geri dönmesini önlemek için kullanılır.
+
+Using { replace: true } when navigating to the "/login" page after a successful logout is a good practice to enhance security and user experience by preventing users from going back to sensitive or authenticated pages once they have logged out. It effectively "replaces" the current page in the browser's history with the new URL, ensuring that the user's history doesn't retain any information about the previous authenticated state.
