@@ -32,7 +32,6 @@ function Login() {
 
   useEffect(() => {
     if (isAuthenticated && !isLoading) {
-      toast.success("You are already logged in");
       navigate("/dashboard");
     }
   });
