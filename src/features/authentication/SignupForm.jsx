@@ -3,14 +3,16 @@ import Button from "../../ui/Button";
 import Form from "../../ui/Form";
 import FormRow from "../../ui/FormRow";
 import Input from "../../ui/Input";
+import { useSignup } from "./useSignup";
 
 function SignupForm() {
-  const { register, handleSubmit, getValues, formState } = useForm();
+  const { register, handleSubmit, getValues, formState, reset } = useForm();
+  const { signup, isLoading } = useSignup();
 
   const { errors } = formState;
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = ({ fullName, email, password }) => {
+    signup({ fullName, email, password }, { onSettled: () => reset() });
   };
 
   return (
@@ -27,6 +29,7 @@ function SignupForm() {
         <Input
           type="email"
           autoComplete="email"
+          disabled={isLoading}
           {...register("email", {
             required: "This field is required",
             pattern: {
@@ -44,6 +47,7 @@ function SignupForm() {
         <Input
           type="password"
           autoComplete="new-password"
+          disabled={isLoading}
           {...register("password", {
             required: "This field is required",
             minLength: {
@@ -58,6 +62,7 @@ function SignupForm() {
         <Input
           type="password"
           autoComplete="new-password"
+          disabled={isLoading}
           {...register("passwordConfirm", {
             required: "This field is required",
             validate: (value) =>
@@ -70,7 +75,9 @@ function SignupForm() {
         <Button variation="secondary" type="reset">
           Cancel
         </Button>
-        <Button type="submit">Create new user</Button>
+        <Button disabled={isLoading} type="submit">
+          Create new user
+        </Button>
       </FormRow>
     </Form>
   );
