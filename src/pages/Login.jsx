@@ -6,7 +6,6 @@ import { useGetUser } from "../features/authentication/useGetUser";
 import Spinner from "../ui/Spinner";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import toast from "react-hot-toast";
 
 const FullPage = styled.div`
   height: 100vh;
