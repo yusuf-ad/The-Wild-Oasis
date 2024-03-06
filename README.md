@@ -199,3 +199,5 @@ return { login, isLoading };
 Örneğin, /login sayfasından /dashboard sayfasına replace: true ile yönlendirme yapılırsa, kullanıcı tarayıcının "geri" düğmesine bastığında /login sayfasına geri dönmez. Çünkü /login URL'si geçmişten silinmiş ve yerine /dashboard eklenmiştir. Bu genellikle kullanıcıların belirli durumlarda (örneğin, başarılı bir giriş işleminden sonra) belirli sayfalara geri dönmesini önlemek için kullanılır.
 
 Using { replace: true } when navigating to the "/login" page after a successful logout is a good practice to enhance security and user experience by preventing users from going back to sensitive or authenticated pages once they have logged out. It effectively "replaces" the current page in the browser's history with the new URL, ensuring that the user's history doesn't retain any information about the previous authenticated state.
+
+querykey array olması lazım
