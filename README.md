@@ -201,3 +201,9 @@ return { login, isLoading };
 Using { replace: true } when navigating to the "/login" page after a successful logout is a good practice to enhance security and user experience by preventing users from going back to sensitive or authenticated pages once they have logged out. It effectively "replaces" the current page in the browser's history with the new URL, ensuring that the user's history doesn't retain any information about the previous authenticated state.
 
 querykey array olması lazım
+
+Regarding when to use which one :
+
+Use useQuery when you want to fetch and display data.
+
+Use useMutation when you want to perform mutations that modify data on the server.
