@@ -57,22 +57,20 @@ const fakeData = [
   { label: "Feb 06", totalSales: 1450, extrasSales: 400 },
 ];
 
-function SalesChart({ bookings, numDays }) {
+function SalesChart({ bookings = {}, numDays }) {
   const allDates = eachDayOfInterval({
     start: subDays(new Date(), numDays),
     end: new Date(),
   });
 
-  console.log(bookings);
-
   const data = allDates.map((date) => {
     return {
       label: format(date, "MMM dd"),
       totalSales: bookings
-        .filter((booking) => isSameDay(date, new Date(booking.created_at)))
+        ?.filter((booking) => isSameDay(date, new Date(booking.created_at)))
         .reduce((acc, cur) => acc + cur.totalPrice, 0),
       extrasSales: bookings
-        .filter((booking) => isSameDay(date, new Date(booking.created_at)))
+        ?.filter((booking) => isSameDay(date, new Date(booking.created_at)))
         .reduce((acc, cur) => acc + cur.extrasPrice, 0),
     };
   });
@@ -95,7 +93,10 @@ function SalesChart({ bookings, numDays }) {
 
   return (
     <StyledSalesChart>
-      <Heading as="h2">Sales</Heading>
+      <Heading as="h2">
+        Sales from {format(allDates.at(0), "MMM dd yyyy")} -{" "}
+        {format(allDates.at(-1), "MMM dd yyyy")}
+      </Heading>
 
       <ResponsiveContainer width={"100%"} height={300}>
         <AreaChart data={data}>
