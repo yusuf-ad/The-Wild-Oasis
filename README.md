@@ -207,3 +207,7 @@ Regarding when to use which one :
 Use useQuery when you want to fetch and display data.
 
 Use useMutation when you want to perform mutations that modify data on the server.
+
+<!-- error boundaries -->
+
+error boundaries really only catch errors while React is rendering
