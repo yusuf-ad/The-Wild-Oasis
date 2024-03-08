@@ -211,3 +211,10 @@ Use useMutation when you want to perform mutations that modify data on the serve
 <!-- error boundaries -->
 
 error boundaries really only catch errors while React is rendering
+
+<!-- dark mode -->
+
+// window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+const defaultMode =
+window.matchMedia &&
+window.matchMedia("(prefers-color-scheme: dark)").matches;
