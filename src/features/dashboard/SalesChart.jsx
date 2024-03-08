@@ -57,7 +57,7 @@ const fakeData = [
   { label: "Feb 06", totalSales: 1450, extrasSales: 400 },
 ];
 
-function SalesChart({ bookings = {}, numDays }) {
+function SalesChart({ bookings, numDays }) {
   const allDates = eachDayOfInterval({
     start: subDays(new Date(), numDays),
     end: new Date(),
